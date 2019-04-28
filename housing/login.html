@@ -1,8 +1,28 @@
+<!DOCTYPE html>
 <html>
-   <body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      html, body, #map {
+        height: 700px;
+        width: 500px;
+      }
+    </style>
+  </head>
+  
+  <body>
+    <div id="map"></div>
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <script src="script.js"></script>
+
       <form action = "http://localhost:5000/housing" method = "post">
          <p>Housing:</p>
-         <p>longitude:</p>
          <p><input type = "text" name = "nm1" /></p>
          <p>latitude:</p>
          <p><input type = "text" name = "nm2" /></p>

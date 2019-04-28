@@ -1,6 +1,7 @@
+import pandas as pd
 from flask import Flask, redirect, url_for, request
 import sys
-from housing import Housing
+from housing import Housing 
 
 app = Flask(__name__)
 
