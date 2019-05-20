@@ -29,7 +29,12 @@ def housing():
             list_var.append(0)
             
         list_var.append(request.form['nm10'])
-        n_kneighbors = int(request.form['n'])
+        n_kneighbors = request.form['n']
+
+        if n_kneighbors:
+          n_kneighbors = int(n_kneighbors)
+        else:
+          n_kneighbors = 5
         house1 = Housing()
 
         df = house1.findKneighbors(list_var, n_kneighbors)
