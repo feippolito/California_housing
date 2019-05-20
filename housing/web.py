@@ -1,16 +1,22 @@
 import pandas as pd
 from flask import Flask, redirect, url_for, request
 import sys
-from housing import Housing 
+from housing import Housing
+import io, csv
 
 app = Flask(__name__)
+house1 = Housing()
 
 @app.route('/housing',methods = ['POST', 'GET'])
 def housing():
     if request.method == 'POST':
-        
+
         list_var_str = []
         list_var = []
+        user_id = []
+
+        user_id.append(request.form['name'])
+        user_id.append(request.form['email'])
 
         list_var_str.append(request.form['nm1'])
         list_var_str.append(request.form['nm2'])
@@ -35,14 +41,25 @@ def housing():
           n_kneighbors = int(n_kneighbors)
         else:
           n_kneighbors = 5
-        house1 = Housing()
 
-        df = house1.findKneighbors(list_var, n_kneighbors)
+        #append to user_data csv file
+        ## == python function ==
+        #house1.appendTocsv(user_id, list_var, n_kneighbors )
         
+        n_kneighbors_list = [n_kneighbors]
+        user_data = user_id + list_var + n_kneighbors_list + ['\n']
+        
+        user_data_str = ','.join(map(str, user_data))
+        
+        fd = open(r"..\housing\user_data.csv", "a")
+        fd.write(user_data_str)
+        fd.close()
+        
+        #return nearest neighbors dataframe
+        df = house1.findKneighbors(list_var, n_kneighbors)
+        #transform dataframe to html
         return df.to_html(header="true", table_id="table")
-    else:
-      user = request.args.get('nm')
-      return redirect(url_for('success',name = var_1))
+
 
 if __name__ == '__main__':
-   app.run(debug = True)
+    app.run(debug = True)

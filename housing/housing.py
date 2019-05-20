@@ -3,6 +3,7 @@
 
 import pandas as pd
 import numpy as np
+import os
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
@@ -10,9 +11,16 @@ from sklearn.neighbors import NearestNeighbors
 
 
 class Housing:
-    def __init__(self):
+    def __init__(self):    
         self.housing = pd.read_csv('new_housing.csv',sep=',',decimal='.',encoding='utf-8')
-
+        
+        exists = os.path.isfile(r'..\housing\user_data.csv')
+        if not exists:
+            user_data = pd.DataFrame(columns = ['Name' , 'Email', 'Longitude', 'Latitude', 'Age', 'Total rooms',
+                                                'Total bedrooms','Population', 'Households', 'Income', 'Price',
+                                                'Ocean proximity', 'n_neighbors'])
+            user_data.to_csv (r'..\housing\user_data.csv', index = None, header=True)
+            
         
     def encode_fit_transform(self, database):
         
@@ -86,9 +94,11 @@ class Housing:
         dist, ind = self.nNeighbors.kneighbors(self.encoded_sample, n_kneighbors)
         
         return self.housing.loc[ind[0].tolist()]
+    
+    def appendTocsv(self,user_id, sample, n_neighbors):
+        n_neighbors = [n_neighbors]
+        user_data = user_id + sample + n_neighbors
+        with open("user_data.csv", "a") as fp:
+            wr = csv.writer(fp, dialect='excel')
+            wr.writerow(user_data)
 
-#house1 = Housing()
-
-#datatable1 = house1.findKneighbors([-120.24, 32.85, 54.0, 1467.0, 190.0, 496.0, 177.0, 7.2574, 352100.0, 'NEAR BAY'], 10)
-
-#print(datatable1)

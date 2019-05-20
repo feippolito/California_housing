@@ -1,0 +1,2 @@
+Name,Email,Longitude,Latitude,Age,Total rooms,Total bedrooms,Population,Households,Income,Price,Ocean proximity,n_neighbors
+test,teste@email.com,-120.03662109374999,35.29943548054545,55.0,5.0,5.0,5.0,57.0,5.0,5.0,NEAR BAY,5,
