@@ -13,11 +13,12 @@ class Housing:
     def __init__(self):
         self.housing = pd.read_csv('new_housing.csv',sep=',',decimal='.',encoding='utf-8')
 
+        
     def encode_fit_transform(self, database):
         
         # one hot encoder for ocean_proximity
         self.onehot = OneHotEncoder(sparse=False, categories= 'auto')
-        ocean_labels=database.ocean_proximity.values.reshape(-1, 1)
+        ocean_labels=database['Ocean proximity'].values.reshape(-1, 1)
         onehot_ocean_labels = self.onehot.fit_transform(ocean_labels)
         
         # concatenate onehot encoded values to dataframe
@@ -26,7 +27,7 @@ class Housing:
         encoded_database = pd.concat([database, dfOneHot], axis=1)
         
         #clean dataframe
-        encoded_database.drop('ocean_proximity', axis = 1, inplace = True) #drop ocean_proximity original column
+        encoded_database.drop('Ocean proximity', axis = 1, inplace = True) #drop ocean_proximity original column
         encoded_database.dropna(axis=0, how='any',inplace = True) #drop NaN
         
         #dataframe columns
@@ -44,14 +45,16 @@ class Housing:
         
         #transform
         #onehot encoder
-        ocean_labels=self.sample_df.ocean_proximity.values.reshape(-1, 1)
+        ocean_labels=self.sample_df['Ocean proximity'].values.reshape(-1, 1)
         onehot_ocean_labels = self.onehot.transform(ocean_labels)
         
         #concatenate onehot encoded values to dataframe
         dfOneHot = pd.DataFrame(onehot_ocean_labels,
                                 columns = ["Ocean_"+str(int(i)) for i in range(onehot_ocean_labels.shape[1])])
         encoded_sample = pd.concat([self.sample_df, dfOneHot], axis=1)
-        encoded_sample.drop('ocean_proximity', axis = 1, inplace = True) #drop ocean_proximity original column
+        encoded_sample.drop('Ocean proximity', axis = 1, inplace = True) #drop ocean_proximity original column
+        
+        
         encoded_sample[self.columns] = self.scaler.transform(encoded_sample[self.columns]).astype(float)
         
         return encoded_sample
@@ -61,10 +64,9 @@ class Housing:
         n_none = [i for i in range(len(sample)) if sample[i] == None]
         
         # Transform list to dataframe
-        columns_ = ['longitude', 'latitude', 'housing_median_age', 'total_rooms',
-                    'total_bedrooms', 'population', 'households', 'median_income',
-                    'median_house_value', 'ocean_proximity']
-
+        columns_ = ['Longitude', 'Latitude', 'Age', 'Total rooms', 'Total bedrooms',
+                    'Population', 'Households', 'Income', 'Price', 'Ocean proximity']
+        
         for index in sorted(n_none, reverse=True):
             del columns_[index]
             del sample[index]
