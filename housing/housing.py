@@ -1,6 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 # dataset:
 # http://www.dcc.fc.up.pt/~ltorgo/Regression/cal_housing.html
 
