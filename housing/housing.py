@@ -11,7 +11,7 @@ from sklearn.neighbors import NearestNeighbors
 
 class Housing:
     def __init__(self):
-        self.housing = pd.read_csv('housing.csv',sep=',',decimal='.',encoding='utf-8')
+        self.housing = pd.read_csv('new_housing.csv',sep=',',decimal='.',encoding='utf-8')
 
     def encode_fit_transform(self, database):
         
