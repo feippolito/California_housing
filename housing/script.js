@@ -29,16 +29,25 @@ map.on('click', function(e) {
 $('#button_submit').click(function() {
 	$.ajax({
 		url: 'http://localhost:5000/housing',
+		crossDomain: true,
 		type: 'POST',
 		dataType: 'html',
 		data: $('#form').serialize(),
-		success: function() {
-			console.log($('#form'));
-			$('#form').submit();
+		success: function(response) {
+			table = createElementFromHTML(response);
+			document.body.appendChild(table[0]);
 		},
-		error: function(e) {
-			console.log(e);
+		error: function(error) {
+			console.log(error);
 		}
 	});
 	//console.log('cliquei');
 });
+
+function createElementFromHTML(htmlString) {
+	var div = document.createElement('div');
+	div.innerHTML = htmlString.trim();
+
+	// Change this to div.childNodes to support multiple top-level nodes
+	return div.childNodes;
+}
